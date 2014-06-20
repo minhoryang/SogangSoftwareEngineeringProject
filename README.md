@@ -5,8 +5,8 @@ SoftwareEngineeringProject
 # TODO
 - [x] 매뉴얼적기
 - [x] dangercloz 초대하기
-- [x] dangercloz 업로드 확인하기
-- [ ] thgus8075 초대하기
+- [x] dangercloz 업로드 확인하기 (https://github.com/minhoryang/SogangSoftwareEngineeringProject/commit/df28cde2d3bd7c671c9a4af45560ec511c453230)
+- [x] thgus8075 초대하기
 - [ ] thgus8075 업로드 확인하기
 - [ ] jean9173 초대하기
 - [ ] jean9173 업로드 확인하기
