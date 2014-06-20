@@ -9,6 +9,8 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -34,6 +36,15 @@ public class MainActivity extends Activity {
 		newFileDialog.addFileEndsWith(".mp4");
 		newFileDialog.addFileListener(new WhatIfFileSelected(this));
 		newFileDialog.showDialog();
+	}
+	
+	@Click
+	void MoviePlay(){
+		Intent player = new Intent(Intent.ACTION_VIEW);
+		// http://cnu.sogang.ac.kr/update/ssep/maleficent.mp4
+		// http://cnu.sogang.ac.kr/update/ssep/transformer4.mp4
+		player.setDataAndType(Uri.parse("http://cnu.sogang.ac.kr/update/ssep/edge_of_tomorrow.mp4"), "video/*");
+		startActivity(player);
 	}
 	
 	class WhatIfFileSelected implements FileSelectedListener{
