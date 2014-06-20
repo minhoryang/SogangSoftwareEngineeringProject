@@ -21,3 +21,6 @@ SoftwareEngineeringProject
 4. master가 보이면 Next를 눌러주세요.
 5. 디렉토리를 자기 workspace안으로 넣어주세요. (C:\Users\R912COM\workspace4\SogangSoftwareEngineeringProject)
 6. 다음 다음 다음 하면 됩니다.
+
+# Hello guys
+Welcome to software engineering. This project is very s word
