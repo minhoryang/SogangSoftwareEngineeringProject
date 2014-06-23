@@ -1,6 +1,7 @@
 package kr.ac.sogang.cs.ssep;
 
 import java.io.File;
+import java.io.IOException;
 
 import kr.ac.sogang.cs.ssep.minhoryang.FileDialog;
 import kr.ac.sogang.cs.ssep.minhoryang.FileDialog.FileSelectedListener;
@@ -19,15 +20,30 @@ import android.widget.Toast;
 @EActivity
 public class MainActivity extends Activity {
 	File ourDirectory;
+	SSEPDB db;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainactivity);
-        
-        // XXX Directory Create.
-        this.ourDirectory = new File(Environment.getExternalStorageDirectory() + "//SSEP//");
-		if(!this.ourDirectory.exists()) this.ourDirectory.mkdirs();
+    }
+    
+    @Override
+    public void onResume(){
+    	super.onResume();
+        this.ourDirectory = SSEPDB.DirectoryCreate(Environment.getExternalStorageDirectory());
+        this.db = SSEPDB.DBOpen(Environment.getExternalStorageDirectory() + "//SSEP//db.json");
+    }
+    
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	try {
+			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	
 	@Click
