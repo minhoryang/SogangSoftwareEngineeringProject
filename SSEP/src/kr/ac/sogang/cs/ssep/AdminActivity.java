@@ -23,14 +23,14 @@ public class AdminActivity extends Activity{
     public void onResume(){
     	super.onResume();
         this.ourDirectory = SSEPDB.DirectoryCreate(Environment.getExternalStorageDirectory());
-        this.db = SSEPDB.DBOpen(Environment.getExternalStorageDirectory() + "//SSEP//db.json");
+        this.db = SSEPDB.DBOpen(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt");
     }
     
     @Override
     public void onPause(){
     	super.onPause();
     	try {
-			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json"));
+			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

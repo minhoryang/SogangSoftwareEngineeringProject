@@ -47,6 +47,9 @@ public class SSEPDB {
 	public SSEPDB(){
 		this.VODs = new ArrayList<VOD>();
 		this.Users = new ArrayList<User>();
+		this.VODs.add(new VOD("maleficent",100,"","","http://cnu.sogang.ac.kr/update/ssep/maleficent.jpg","http://cnu.sogang.ac.kr/update/ssep/maleficent.mp4"));
+		this.VODs.add(new VOD("transformer4",100,"","","http://cnu.sogang.ac.kr/update/ssep/transformer4.jpg","http://cnu.sogang.ac.kr/update/ssep/transformer4.mp4"));
+		this.VODs.add(new VOD("edge of tomorrow",100,"","","http://cnu.sogang.ac.kr/update/ssep/edge_of_tomorrow.jpg","http://cnu.sogang.ac.kr/update/ssep/edge_of_tomorrow.mp4"));
 	}
 	public SSEPDB(String in){
 		SSEPDB t = new Gson().fromJson(in, SSEPDB.class);

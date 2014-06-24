@@ -26,5 +26,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/SSEPDB/libs/javadoc/gson-2.2.4-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/picasso-2.3.2.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

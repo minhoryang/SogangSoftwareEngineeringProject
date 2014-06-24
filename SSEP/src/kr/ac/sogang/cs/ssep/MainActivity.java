@@ -27,14 +27,14 @@ public class MainActivity extends Activity {
     public void onResume(){
     	super.onResume();
         this.ourDirectory = SSEPDB.DirectoryCreate(Environment.getExternalStorageDirectory());
-        this.db = SSEPDB.DBOpen(Environment.getExternalStorageDirectory() + "//SSEP//db.json");
+        this.db = SSEPDB.DBOpen(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt");
     }
     
     @Override
     public void onPause(){
     	super.onPause();
     	try {
-			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json"));
+			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
 			    	a = new Intent(getApplicationContext(), AdminActivity_.class);
 				}else{
 					a = new Intent(getApplicationContext(), UserActivity_.class);
+			    	a.putExtra("User", id);
 				}
 		    	startActivity(a);
 			}else
@@ -83,4 +84,13 @@ public class MainActivity extends Activity {
 			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
 	}
 	
+	@OptionsItem
+	void ClearDB(){
+		this.db = new SSEPDB();
+		try {
+			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
