@@ -3,16 +3,17 @@ package kr.ac.sogang.cs.ssep;
 import java.io.File;
 import java.io.IOException;
 
+import kr.ac.sogang.cs.ssep.Classes.VOD;
 import kr.ac.sogang.cs.ssep.minhoryang.FileDialog;
 import kr.ac.sogang.cs.ssep.minhoryang.FileDialog.FileSelectedListener;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 import android.app.Activity;
 import android.os.Environment;
-import android.view.View;
-import android.widget.Toast;
+import android.widget.EditText;
 
 @EActivity(R.layout.adminactivity)
 public class AdminActivity extends Activity{
@@ -36,21 +37,33 @@ public class AdminActivity extends Activity{
 		}
     }
 	
-	@Click
-	void SameAsButtonID(View clickedView){
+    @ViewById EditText Name, Movie, Thumbnail, Price, Staff, Story;
+    
+	@Click void SelectMovie(){
 		FileDialog newFileDialog = new FileDialog(this, this.ourDirectory);
 		newFileDialog.addFileEndsWith(".mp4");
-		newFileDialog.addFileListener(new WhatIfFileSelected(this));
+		newFileDialog.addFileListener(new WhatIfFileSelected(this.Movie));
+		newFileDialog.showDialog();
+	}
+
+	@Click void SelectThumbnail(){
+		FileDialog newFileDialog = new FileDialog(this, this.ourDirectory);
+		newFileDialog.addFileEndsWith(".jpg");
+		newFileDialog.addFileListener(new WhatIfFileSelected(this.Thumbnail));
 		newFileDialog.showDialog();
 	}
 	
 	class WhatIfFileSelected implements FileSelectedListener{
-		Activity parent;
-		public WhatIfFileSelected(Activity _parent){ this.parent = _parent; }
+		EditText target;
+		public WhatIfFileSelected(EditText _target){ this.target = _target; }
 		
 		@Override
 		public void fileSelected(File file) {
-			Toast.makeText(this.parent, file.toString(), Toast.LENGTH_SHORT).show();
+			this.target.setText(file.toString());
 		}
+	}
+	
+	@Click void Upload(){
+		this.db.VODs.add(new VOD(Name.getText().toString(), Integer.parseInt(Price.getText().toString()), Staff.getText().toString(), Story.getText().toString(), Thumbnail.getText().toString(), Movie.getText().toString()));
 	}
 }

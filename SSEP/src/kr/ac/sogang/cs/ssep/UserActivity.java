@@ -21,10 +21,7 @@ import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,7 +68,10 @@ public class UserActivity extends Activity{
 			ImageView iv = new ImageView(getApplicationContext());
 			iv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
 			iv.setScaleType(ScaleType.FIT_XY);
-			Picasso.with(this.getApplicationContext()).load(v.thumbnail).into(iv);
+			if(v.thumbnail.contains("http"))
+				Picasso.with(this.getApplicationContext()).load(v.thumbnail).into(iv);
+			else
+				Picasso.with(this.getApplicationContext()).load(new File(v.thumbnail)).into(iv);
 			iv.setOnClickListener(new MovieOnClickEvent(v.mp4));
 			this.userLayout.addView(iv);
 		}
