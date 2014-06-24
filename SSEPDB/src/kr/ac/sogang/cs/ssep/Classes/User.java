@@ -13,12 +13,13 @@ public class User {
 	public boolean ADMIN;
 	public ArrayList<VOD> PURCHASE_LIST;
 	
-	public User(String name, String password, int coin){
+	public User(String name, String password, int coin, boolean isAdmin){
 		this.USERNUM = ++usernummax;
 		this.ID = name;
 		this.PW = password;
 		this.COIN = coin;
 		this.PURCHASE_LIST = new ArrayList<VOD>();
+		this.ADMIN = isAdmin;
 	}
 	
 	public static User Login(SSEPDB db, String name, String password){

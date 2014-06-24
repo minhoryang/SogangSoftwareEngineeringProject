@@ -33,12 +33,12 @@ public class SSEPDB {
 	public static void main(String[] args) throws IOException {
 		Gson a = new Gson();
 		SSEPDB b = new SSEPDB();
-		b.Users.add(new User("Hello", "World", 100));
-		b.Users.add(new User("Minho", "Ryang", 200));
-		b.Users.add(new User("What", "The", 300));
+		b.Users.add(new User("Hello", "World", 100, false));
+		b.Users.add(new User("Minho", "Ryang", 200, true));
+		b.Users.add(new User("What", "The", 300, false));
 		b.Save(new File("test.txt"));
 		SSEPDB c = new SSEPDB(new File("test.txt"));
-		c.Users.add(new User("KIKI", "KATKAT", 400));
+		c.Users.add(new User("KIKI", "KATKAT", 400, false));
 		System.out.println(a.toJson(c));
 	}
 
@@ -50,13 +50,21 @@ public class SSEPDB {
 	}
 	public SSEPDB(String in){
 		SSEPDB t = new Gson().fromJson(in, SSEPDB.class);
-		if(t.Users != null)
+		if(t.Users != null){
 			this.Users = t.Users;
-		else
+			for(User a : this.Users){
+				if(a.usernummax<a.USERNUM)
+					a.usernummax = a.USERNUM;
+			}
+		}else
 			this.Users = new ArrayList<User>();
-		if(t.VODs != null)
+		if(t.VODs != null){
 			this.VODs = t.VODs;
-		else
+			for(VOD a : this.VODs){
+				if(a.vodnummax<a.VODNUM)
+					a.vodnummax = a.VODNUM;
+			}
+		}else
 			this.VODs = new ArrayList<VOD>();
 	}
 	@SuppressWarnings("resource")
