@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     void Login(){
 		String id = ID.getText().toString();
 		String pw = PW.getText().toString();
-		if(id.length() > 3 && pw.length() > 3){
+		if(id.length() > 1 && pw.length() > 1){
 			User found = User.Login(this.db, id, pw);
 			if(found != null){
 				Intent a;
@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
 	void Register(){
 		String id = ID.getText().toString();
 		String pw = PW.getText().toString();
-		if(id.length() > 3 && pw.length() > 3)
+		if(id.length() > 1 && pw.length() > 1)
 			this.db.Users.add(new User(id, pw, 10000, false));
 		else
 			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
@@ -78,7 +78,7 @@ public class MainActivity extends Activity {
 	void RegisterAsAdmin(){
 		String id = ID.getText().toString();
 		String pw = PW.getText().toString();
-		if(id.length() > 3 && pw.length() > 3)
+		if(id.length() > 1 && pw.length() > 1)
 			this.db.Users.add(new User(id, pw, 0, true));
 		else
 			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
