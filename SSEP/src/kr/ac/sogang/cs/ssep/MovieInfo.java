@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -89,7 +90,7 @@ public class MovieInfo extends Activity{
         }
         test();
     }
-    @Background(delay=100)
+    @Background()
     void test(){
     	ColorArt ca = null;
 		try {
@@ -107,11 +108,16 @@ public class MovieInfo extends Activity{
     @ViewById LinearLayout Header;
     @UiThread
     void test2(ColorArt ca){
+    	Typeface tf = Typeface.createFromAsset(getAssets(), "NanumGothic.ttf.mp3");
     	Header.setBackgroundColor(ca.getBackgroundColor());
     	InfoTitle.setTextColor(ca.getPrimaryColor());
+    	InfoTitle.setTypeface(tf);
     	InfoStaff.setTextColor(ca.getDetailColor());
+    	InfoStaff.setTypeface(tf);
     	InfoStory.setTextColor(ca.getDetailColor());
+    	InfoStory.setTypeface(tf);
     	PlayButton.setBackgroundColor(ca.getSecondaryColor());
+    	PlayButton.setTypeface(tf);
     	PlayButton.setTextColor(Colour.blackOrWhiteContrastingColor(ca.getSecondaryColor()));
     }
     
