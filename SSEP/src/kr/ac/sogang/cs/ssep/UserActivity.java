@@ -13,7 +13,10 @@ import org.androidannotations.annotations.ViewById;
 
 import com.squareup.picasso.Picasso;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
 import android.app.Activity;
+import android.app.Notification.Style;
 import android.content.Intent;
 import android.os.Environment;
 import android.view.ViewGroup.LayoutParams;
@@ -38,6 +41,7 @@ public class UserActivity extends Activity{
     @Override
     public void onPause(){
     	super.onPause();
+    	Crouton.cancelAllCroutons();
     	try {
 			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt"));
 		} catch (IOException e) {
@@ -45,7 +49,6 @@ public class UserActivity extends Activity{
 		}
     }
     
-    @ViewById TextView showID;
     private void onLogin(){
         String me = getIntent().getExtras().getString("User");
         for(User i : this.db.Users){
@@ -54,8 +57,23 @@ public class UserActivity extends Activity{
         }
         if(this.myself == null)
         	onBackPressed();
-        else
-        	showID.setText("안녕하세요  " + me + "님 - " + Integer.toString(this.myself.COIN) + "유디니(원)을 보유");
+        else{
+        	this.setTitle("유디니의 영화산책");
+        	final Activity here = this;
+        	final String what = me + "님 - " + Integer.toString(this.myself.COIN) + "유디니(원)을 보유";
+        	Crouton c = Crouton.makeText(this, "안녕하세요  " + what, de.keyboardsurfer.android.widget.crouton.Style.CONFIRM);
+        	c.setLifecycleCallback(new LifecycleCallback() {
+				@Override
+				public void onRemoved() {
+					here.setTitle(what);
+				}
+				@Override
+				public void onDisplayed() {
+					
+				}
+			});
+        	c.show();
+        }
     }
     
     @ViewById LinearLayout userLayout;
