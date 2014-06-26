@@ -29,8 +29,9 @@ public class ListAdapter<T> extends BaseAdapter{
 			nowItemView = convertView;
 		}
 		if(getItem(position).getClass() == VOD.class){
-			TextView tv = (TextView)nowItemView.findViewById(R.id.textView1);
-			tv.setText(((VOD)getItem(position)).NAME);
+			VOD v = (VOD)getItem(position);
+			TextView tv = (TextView)nowItemView.findViewById(R.id.InfoTitle);
+			tv.setText(v.NAME);
 		}
 		return nowItemView;
 	}

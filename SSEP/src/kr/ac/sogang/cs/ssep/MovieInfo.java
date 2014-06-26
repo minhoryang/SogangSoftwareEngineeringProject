@@ -5,6 +5,9 @@ import java.io.IOException;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+import com.squareup.picasso.Picasso;
 
 import kr.ac.sogang.cs.ssep.Classes.User;
 import kr.ac.sogang.cs.ssep.Classes.VOD;
@@ -14,16 +17,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 @EActivity(R.layout.movieinfoactivity)
 public class MovieInfo extends Activity{
 	SSEPDB db;
 	VOD vod;
+	User myself;
 	
     @Override
     public void onResume(){
     	super.onResume();
         this.db = SSEPDB.DBOpen(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt");
+        this.whoIAm();
         this.showMovie();
     }
 
@@ -37,6 +45,20 @@ public class MovieInfo extends Activity{
 		}
     }
     
+    void whoIAm(){
+        String me = getIntent().getExtras().getString("User");
+        for(User i : this.db.Users){
+        	if(i.ID.equals(me)){
+        		this.myself = i;
+        	}
+        }
+    }
+    
+    @ViewById ImageView InfoThumbnail;
+    @ViewById TextView InfoTitle;
+    @ViewById TextView InfoStaff;
+    @ViewById TextView InfoStory;
+    @ViewById(R.id.Play) Button PlayButton;
     void showMovie(){
         String movie = getIntent().getExtras().getString("Movie");
         for(VOD i : this.db.VODs){
@@ -46,20 +68,19 @@ public class MovieInfo extends Activity{
         if(this.vod == null)
         	onBackPressed();
         else{
-        	// TODO 보여주기.
+			if(this.vod.thumbnail.contains("http"))
+				Picasso.with(this.getApplicationContext()).load(this.vod.thumbnail).into(InfoThumbnail);
+			else
+				Picasso.with(this.getApplicationContext()).load(new File(this.vod.thumbnail)).into(InfoThumbnail);
+			InfoTitle.setText(this.vod.NAME);
+			PlayButton.setText("보러가기! " + this.vod.PRICE + "유디니");
+			setTitle(this.myself.ID + "님, " + this.myself.COIN + "유디니(원) 소유.");
         }
     }
     
     @Click void Play(){
     	final VOD target = this.vod;
-    	User myself = null;
-        String me = getIntent().getExtras().getString("User");
-        for(User i : this.db.Users){
-        	if(i.ID.equals(me)){
-        		myself = i;
-        	}
-        }
-        if(myself != null){
+        if(this.myself != null){
         	boolean isAlreadyGot = false;
         	for(VOD a : myself.PURCHASE_LIST){
         		if(a.NAME.equals(target.NAME)){
@@ -81,7 +102,7 @@ public class MovieInfo extends Activity{
     	    	alert.setTitle("이미 구매했습니다.");
     	    	alert.show();
         	}else{
-	        	if(myself.CheckPrice(target.PRICE)){
+	        	if(this.myself.CheckPrice(target.PRICE)){
 	        		final User targetUser = myself;
 	    	    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 	    	    	dialog.setMessage("결제됩니다!").setPositiveButton("네", new DialogInterface.OnClickListener() {
