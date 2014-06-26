@@ -85,6 +85,7 @@ public class UserActivity extends Activity{
 			cur.addView(iv);
 		}
 		int j = 3 - i%3;
+		if(j!=3)
 		while(j-->0){
 			ImageView iv = new ImageView(getApplicationContext());
 			iv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1f));
