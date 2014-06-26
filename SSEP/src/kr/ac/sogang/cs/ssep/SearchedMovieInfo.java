@@ -40,6 +40,7 @@ public class SearchedMovieInfo extends Activity{
     @ViewById ListView searchMovieInfoList;
     void searchedResult(){
         String query = getIntent().getExtras().getString("Query");
+        setTitle(" " + query + " 로 검색했더니?");
         ListAdapter<VOD> resultsAdapter = new ListAdapter<VOD>();
         ArrayList<VOD> datas =  new ArrayList<VOD>();
         resultsAdapter.setData(getApplicationContext(), datas, R.layout.searchedmovieinfoentry);

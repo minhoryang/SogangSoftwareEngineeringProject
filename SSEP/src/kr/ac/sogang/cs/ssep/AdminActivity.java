@@ -14,6 +14,7 @@ import org.androidannotations.annotations.ViewById;
 import android.app.Activity;
 import android.os.Environment;
 import android.widget.EditText;
+import android.widget.Toast;
 
 @EActivity(R.layout.adminactivity)
 public class AdminActivity extends Activity{
@@ -65,5 +66,6 @@ public class AdminActivity extends Activity{
 	
 	@Click void Upload(){
 		this.db.VODs.add(new VOD(Name.getText().toString(), Integer.parseInt(Price.getText().toString()), Staff.getText().toString(), Story.getText().toString(), Thumbnail.getText().toString(), Movie.getText().toString()));
+		Toast.makeText(getApplicationContext(), "업로드 되었습니다!", Toast.LENGTH_LONG).show();
 	}
 }

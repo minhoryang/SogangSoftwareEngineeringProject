@@ -1,14 +1,22 @@
 package kr.ac.sogang.cs.ssep.minhoryang;
 
+import java.io.File;
 import java.util.List;
+
+import com.squareup.picasso.Picasso;
 
 import kr.ac.sogang.cs.ssep.R;
 import kr.ac.sogang.cs.ssep.Classes.VOD;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ListAdapter<T> extends BaseAdapter{
@@ -31,7 +39,21 @@ public class ListAdapter<T> extends BaseAdapter{
 		if(getItem(position).getClass() == VOD.class){
 			VOD v = (VOD)getItem(position);
 			TextView tv = (TextView)nowItemView.findViewById(R.id.InfoTitle);
-			tv.setText(v.NAME);
+			if(v.NAME.contains("\n"))
+				tv.setText(v.NAME);
+			else
+				tv.setText(v.NAME+'\n');
+			tv.setTextColor(Color.BLACK);
+			ImageView iv = (ImageView)nowItemView.findViewById(R.id.InfoImage);
+			iv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT));
+			iv.setAdjustViewBounds(true);
+			iv.setScaleType(ScaleType.CENTER);
+
+			if(v.thumbnail.contains("http"))
+				Picasso.with(this.context).load(v.thumbnail).into(iv);
+			else
+				Picasso.with(this.context).load(new File(v.thumbnail)).into(iv);
+
 		}
 		return nowItemView;
 	}

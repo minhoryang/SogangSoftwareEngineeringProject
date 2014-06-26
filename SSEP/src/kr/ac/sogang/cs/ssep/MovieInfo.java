@@ -76,7 +76,7 @@ public class MovieInfo extends Activity{
 			InfoStaff.setText(this.vod.STAFF);
 			InfoStory.setText(this.vod.STORY);
 			PlayButton.setText("보러가기! " + this.vod.PRICE + "유디니");
-			setTitle(this.myself.ID + "님, " + this.myself.COIN + "유디니(원) 소유.");
+			setTitle(this.myself.ID + "님, " + this.myself.COIN + "유디니(원)");
         }
     }
     
@@ -125,7 +125,7 @@ public class MovieInfo extends Activity{
 	    				}
 	    			});
 	    	    	AlertDialog alert = dialog.create();
-	    	    	alert.setTitle("결제됩니다.");
+	    	    	alert.setTitle("잠깐! 진짜 볼까요?");
 	    	    	alert.show();
 	        	}else{
 	    	    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
