@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">유디니의 영화산책</string>
+    <string name="app_name2">관리자용 VOD추가</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Environment;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
@@ -56,22 +57,31 @@ public class UserActivity extends Activity{
         if(this.myself == null)
         	onBackPressed();
         else
-        	showID.setText("¾È³çÇÏ¼¼¿ä : " + me + "´Ô. (" + Integer.toString(this.myself.COIN) + "…ß)");
+        	showID.setText("¾È³çÇÏ¼¼¿ä  " + me + "´Ô - " + Integer.toString(this.myself.COIN) + "À¯µð´Ï(¿ø)À» º¸À¯");
     }
     
     @ViewById LinearLayout userLayout;
 	private void ListUpMovies(){
 		this.userLayout.removeAllViewsInLayout();
+		int i = 0;
+		LinearLayout cur = null;
 		for(VOD v : this.db.VODs){
+			if(++i % 3 == 1){
+				cur = new LinearLayout(getApplicationContext());
+				cur.setOrientation(LinearLayout.HORIZONTAL);
+				cur.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1f));
+				this.userLayout.addView(cur);
+			}
 			ImageView iv = new ImageView(getApplicationContext());
-			iv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 1f));
-			iv.setScaleType(ScaleType.FIT_XY);
+			iv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1f));
+			//iv.setScaleType(ScaleType.FIT_XY);
+			iv.setAdjustViewBounds(true);
 			if(v.thumbnail.contains("http"))
-				Picasso.with(this.getApplicationContext()).load(v.thumbnail).into(iv);
+				Picasso.with(this.getApplicationContext()).load(v.thumbnail).placeholder(R.drawable.loading).into(iv);
 			else
-				Picasso.with(this.getApplicationContext()).load(new File(v.thumbnail)).into(iv);
+				Picasso.with(this.getApplicationContext()).load(new File(v.thumbnail)).placeholder(R.drawable.loading).into(iv);
 			iv.setOnClickListener(new MovieOnClickEvent(getApplicationContext(), v, this.myself));
-			this.userLayout.addView(iv);
+			cur.addView(iv);
 		}
 
 	}

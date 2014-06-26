@@ -25,7 +25,7 @@
         </activity>
         <activity
             android:name="kr.ac.sogang.cs.ssep.AdminActivity_"
-            android:label="Admin Mode" />
+            android:label="@string/app_name2" />
         <activity
             android:name="kr.ac.sogang.cs.ssep.UserActivity_"
             android:label="@string/app_name" />
