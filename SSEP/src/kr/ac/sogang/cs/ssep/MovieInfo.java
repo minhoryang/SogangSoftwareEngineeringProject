@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
+import kr.ac.sogang.cs.ssep.Classes.User;
 import kr.ac.sogang.cs.ssep.Classes.VOD;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,22 +52,69 @@ public class MovieInfo extends Activity{
     
     @Click void Play(){
     	final VOD target = this.vod;
-    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-    	dialog.setMessage("결제됩니다!").setPositiveButton("네", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface _dialog, int which) {
-				Intent player = new Intent(Intent.ACTION_VIEW);
-				player.setDataAndType(Uri.parse(target.mp4), "video/*");
-				startActivity(player);
-			}
-		}).setNegativeButton("아니요", new DialogInterface.OnClickListener(){
-			@Override
-			public void onClick(DialogInterface _dialog, int which) {
-				_dialog.cancel();
-			}
-		}).setCancelable(false);
-    	AlertDialog alert = dialog.create();
-    	alert.setTitle("결제됩니다.");
-    	alert.show();
+    	User myself = null;
+        String me = getIntent().getExtras().getString("User");
+        for(User i : this.db.Users){
+        	if(i.ID.equals(me)){
+        		myself = i;
+        	}
+        }
+        if(myself != null){
+        	boolean isAlreadyGot = false;
+        	for(VOD a : myself.PURCHASE_LIST){
+        		if(a.NAME.equals(target.NAME)){
+        			isAlreadyGot = true;
+        			break;
+        		}
+        	}
+        	if(isAlreadyGot){
+    	    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    	    	dialog.setMessage("과금 없이 재생됩니다.").setPositiveButton("알겠습니다", new DialogInterface.OnClickListener() {
+    				@Override
+    				public void onClick(DialogInterface _dialog, int which) {
+    					Intent player = new Intent(Intent.ACTION_VIEW);
+    					player.setDataAndType(Uri.parse(target.mp4), "video/*");
+    					startActivity(player);
+    				}
+    			}).setCancelable(false);
+    	    	AlertDialog alert = dialog.create();
+    	    	alert.setTitle("이미 구매했습니다.");
+    	    	alert.show();
+        	}else{
+	        	if(myself.CheckPrice(target.PRICE)){
+	        		final User targetUser = myself;
+	    	    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+	    	    	dialog.setMessage("결제됩니다!").setPositiveButton("네", new DialogInterface.OnClickListener() {
+	    				@Override
+	    				public void onClick(DialogInterface _dialog, int which) {
+	    					targetUser.PurchaseVOD(target);
+	    					
+	    					Intent player = new Intent(Intent.ACTION_VIEW);
+	    					player.setDataAndType(Uri.parse(target.mp4), "video/*");
+	    					startActivity(player);
+	    				}
+	    			}).setNegativeButton("아니요", new DialogInterface.OnClickListener(){
+	    				@Override
+	    				public void onClick(DialogInterface _dialog, int which) {
+	    					_dialog.cancel();
+	    				}
+	    			}).setCancelable(false);
+	    	    	AlertDialog alert = dialog.create();
+	    	    	alert.setTitle("결제됩니다.");
+	    	    	alert.show();
+	        	}else{
+	    	    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+	    	    	dialog.setMessage("코인이 부족합니다.").setPositiveButton("알겠습니다", new DialogInterface.OnClickListener() {
+	    				@Override
+	    				public void onClick(DialogInterface _dialog, int which) {
+	    					_dialog.cancel();
+	    				}
+	    			}).setCancelable(false);
+	    	    	AlertDialog alert = dialog.create();
+	    	    	alert.setTitle("코인이 부족합니다.");
+	    	    	alert.show();
+	        	}
+        	}
+        }
     }
 }

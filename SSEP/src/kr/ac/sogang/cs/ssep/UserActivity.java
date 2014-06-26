@@ -70,7 +70,7 @@ public class UserActivity extends Activity{
 				Picasso.with(this.getApplicationContext()).load(v.thumbnail).into(iv);
 			else
 				Picasso.with(this.getApplicationContext()).load(new File(v.thumbnail)).into(iv);
-			iv.setOnClickListener(new MovieOnClickEvent(getApplicationContext(), v));
+			iv.setOnClickListener(new MovieOnClickEvent(getApplicationContext(), v, this.myself));
 			this.userLayout.addView(iv);
 		}
 
@@ -81,6 +81,7 @@ public class UserActivity extends Activity{
 		if(!MovieNameForSearch.getText().toString().equals("")){
 			Intent a = new Intent(getApplicationContext(), SearchedMovieInfo_.class);
 			a.putExtra("Query", MovieNameForSearch.getText().toString());
+	    	a.putExtra("User", this.myself.ID);
 			startActivity(a);
 		}
 	}	

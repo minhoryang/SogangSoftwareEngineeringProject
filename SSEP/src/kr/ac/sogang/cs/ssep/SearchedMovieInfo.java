@@ -40,7 +40,7 @@ public class SearchedMovieInfo extends Activity{
     @ViewById ListView searchMovieInfoList;
     void searchedResult(){
         String query = getIntent().getExtras().getString("Query");
-        ListAdapter resultsAdapter = new ListAdapter();
+        ListAdapter<VOD> resultsAdapter = new ListAdapter<VOD>();
         ArrayList<VOD> datas =  new ArrayList<VOD>();
         resultsAdapter.setData(getApplicationContext(), datas, R.layout.searchedmovieinfoentry);
         for(VOD v : this.db.VODs){
@@ -53,6 +53,7 @@ public class SearchedMovieInfo extends Activity{
     }
     
     @ItemClick void searchMovieInfoListItemClicked(VOD v){
-    	MovieOnClickEvent.Movie(getApplicationContext(), v.NAME);
+        String me = getIntent().getExtras().getString("User");
+    	MovieOnClickEvent.Movie(getApplicationContext(), v.NAME, me);
     }
 }
