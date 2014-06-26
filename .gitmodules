@@ -1,0 +1,3 @@
+[submodule "ColorArt"]
+	path = ColorArt
+	url = https://github.com/MichaelEvans/ColorArt.git

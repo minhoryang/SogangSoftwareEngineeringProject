@@ -16,14 +16,12 @@ import com.squareup.picasso.Picasso;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
 import android.app.Activity;
-import android.app.Notification.Style;
 import android.content.Intent;
 import android.os.Environment;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 @EActivity(R.layout.useractivity)
 public class UserActivity extends Activity{

@@ -28,5 +28,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/picasso-2.3.2.jar"/>
 	<classpathentry kind="lib" path="libs/crouton-1.8.4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/main"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
