@@ -1,59 +1,96 @@
 package kr.ac.sogang.cs.ssep;
 
 import java.io.File;
+import java.io.IOException;
 
-import kr.ac.sogang.cs.ssep.minhoryang.FileDialog;
-import kr.ac.sogang.cs.ssep.minhoryang.FileDialog.FileSelectedListener;
+import kr.ac.sogang.cs.ssep.Classes.User;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.ViewById;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
-import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
-@EActivity
+@EActivity(R.layout.mainactivity)
+@OptionsMenu(R.menu.mainactivitymenu)
 public class MainActivity extends Activity {
 	File ourDirectory;
+	SSEPDB db;
 	
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainactivity);
-        
-        // XXX Directory Create.
-        this.ourDirectory = new File(Environment.getExternalStorageDirectory() + "//SSEP//");
-		if(!this.ourDirectory.exists()) this.ourDirectory.mkdirs();
+    public void onResume(){
+    	super.onResume();
+        this.ourDirectory = SSEPDB.DirectoryCreate(Environment.getExternalStorageDirectory());
+        this.db = SSEPDB.DBOpen(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt");
     }
-	
-	@Click
-	void SameAsButtonID(View clickedView){
-		FileDialog newFileDialog = new FileDialog(this, this.ourDirectory);
-		newFileDialog.addFileEndsWith(".mp4");
-		newFileDialog.addFileListener(new WhatIfFileSelected(this));
-		newFileDialog.showDialog();
+    
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	try {
+			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @ViewById EditText ID;
+    @ViewById EditText PW;
+    
+    @Click
+    void Login(){
+		String id = ID.getText().toString();
+		String pw = PW.getText().toString();
+		if(id.length() > 3 && pw.length() > 3){
+			User found = User.Login(this.db, id, pw);
+			if(found != null){
+				Intent a;
+				if(found.ADMIN){
+			    	a = new Intent(getApplicationContext(), AdminActivity_.class);
+				}else{
+					a = new Intent(getApplicationContext(), UserActivity_.class);
+			    	a.putExtra("User", id);
+				}
+		    	startActivity(a);
+			}else
+				Toast.makeText(getApplicationContext(), "Wrong ID/PW", Toast.LENGTH_SHORT).show();
+		}else
+			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
+    }
+    
+	@OptionsItem
+	void Register(){
+		String id = ID.getText().toString();
+		String pw = PW.getText().toString();
+		if(id.length() > 3 && pw.length() > 3)
+			this.db.Users.add(new User(id, pw, 10000, false));
+		else
+			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
 	}
 	
-	@Click
-	void MoviePlay(){
-		Intent player = new Intent(Intent.ACTION_VIEW);
-		// http://cnu.sogang.ac.kr/update/ssep/maleficent.mp4
-		// http://cnu.sogang.ac.kr/update/ssep/transformer4.mp4
-		player.setDataAndType(Uri.parse("http://cnu.sogang.ac.kr/update/ssep/edge_of_tomorrow.mp4"), "video/*");
-		startActivity(player);
+	@OptionsItem
+	void RegisterAsAdmin(){
+		String id = ID.getText().toString();
+		String pw = PW.getText().toString();
+		if(id.length() > 3 && pw.length() > 3)
+			this.db.Users.add(new User(id, pw, 0, true));
+		else
+			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
 	}
 	
-	class WhatIfFileSelected implements FileSelectedListener{
-		Activity parent;
-		public WhatIfFileSelected(Activity _parent){ this.parent = _parent; }
-		
-		@Override
-		public void fileSelected(File file) {
-			Toast.makeText(this.parent, file.toString(), Toast.LENGTH_SHORT).show();
+	@OptionsItem
+	void ClearDB(){
+		this.db = new SSEPDB();
+		try {
+			this.db.Save(new File(Environment.getExternalStorageDirectory() + "//SSEP//db.json.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

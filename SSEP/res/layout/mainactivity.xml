@@ -4,27 +4,35 @@
     android:layout_height="match_parent"
     tools:context="${packageName}.${activityClass}" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
     <Button
-        android:id="@+id/SameAsButtonID"
+        android:id="@+id/Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
-        android:text="FileDialog Open()" />
+        android:layout_alignRight="@+id/PW"
+        android:layout_centerVertical="true"
+        android:text="Login" />
 
-    <Button
-        android:id="@+id/MoviePlay"
+    <EditText
+        android:id="@+id/ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/SameAsButtonID"
-        android:layout_marginTop="20dp"
-        android:text="MoviePlay()" />
+        android:layout_above="@+id/PW"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="User"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/PW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Login"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

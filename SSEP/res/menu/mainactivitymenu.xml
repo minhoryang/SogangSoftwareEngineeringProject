@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/Register" android:title="Register"></item>
+    <item android:id="@+id/RegisterAsAdmin" android:title="Register as Admin"></item>
+    <item android:id="@+id/ClearDB" android:title="Clear DB"></item>
+</menu>
