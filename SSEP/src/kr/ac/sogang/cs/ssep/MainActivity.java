@@ -59,9 +59,9 @@ public class MainActivity extends Activity {
 				}
 		    	startActivity(a);
 			}else
-				Toast.makeText(getApplicationContext(), "Wrong ID/PW", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Æ²·È¾î¿ä!!", Toast.LENGTH_SHORT).show();
 		}else
-			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Âª¾Æ¿ä!", Toast.LENGTH_SHORT).show();
     }
     
 	@OptionsItem
@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 		if(id.length() > 1 && pw.length() > 1)
 			this.db.Users.add(new User(id, pw, 10000, false));
 		else
-			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Âª¾Æ¿ä!", Toast.LENGTH_SHORT).show();
 	}
 	
 	@OptionsItem
@@ -81,7 +81,7 @@ public class MainActivity extends Activity {
 		if(id.length() > 1 && pw.length() > 1)
 			this.db.Users.add(new User(id, pw, 0, true));
 		else
-			Toast.makeText(getApplicationContext(), "Short ID/PW", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "Âª¾Æ¿ä!", Toast.LENGTH_SHORT).show();
 	}
 	
 	@OptionsItem

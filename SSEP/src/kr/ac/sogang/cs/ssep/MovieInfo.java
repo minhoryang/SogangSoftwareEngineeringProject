@@ -73,6 +73,8 @@ public class MovieInfo extends Activity{
 			else
 				Picasso.with(this.getApplicationContext()).load(new File(this.vod.thumbnail)).into(InfoThumbnail);
 			InfoTitle.setText(this.vod.NAME);
+			InfoStaff.setText(this.vod.STAFF);
+			InfoStory.setText(this.vod.STORY);
 			PlayButton.setText("보러가기! " + this.vod.PRICE + "유디니");
 			setTitle(this.myself.ID + "님, " + this.myself.COIN + "유디니(원) 소유.");
         }
@@ -97,7 +99,7 @@ public class MovieInfo extends Activity{
     					player.setDataAndType(Uri.parse(target.mp4), "video/*");
     					startActivity(player);
     				}
-    			}).setCancelable(false);
+    			});
     	    	AlertDialog alert = dialog.create();
     	    	alert.setTitle("이미 구매했습니다.");
     	    	alert.show();
@@ -105,7 +107,9 @@ public class MovieInfo extends Activity{
 	        	if(this.myself.CheckPrice(target.PRICE)){
 	        		final User targetUser = myself;
 	    	    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-	    	    	dialog.setMessage("결제됩니다!").setPositiveButton("네", new DialogInterface.OnClickListener() {
+	    	    	dialog.setMessage(
+	    	    			myself.COIN + " - " + target.PRICE + " = " + (myself.COIN-target.PRICE) + "유디니."
+	    	    	).setPositiveButton("네, 보러갑시다!", new DialogInterface.OnClickListener() {
 	    				@Override
 	    				public void onClick(DialogInterface _dialog, int which) {
 	    					targetUser.PurchaseVOD(target);
@@ -119,7 +123,7 @@ public class MovieInfo extends Activity{
 	    				public void onClick(DialogInterface _dialog, int which) {
 	    					_dialog.cancel();
 	    				}
-	    			}).setCancelable(false);
+	    			});
 	    	    	AlertDialog alert = dialog.create();
 	    	    	alert.setTitle("결제됩니다.");
 	    	    	alert.show();

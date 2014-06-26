@@ -15,12 +15,10 @@ import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable.Orientation;
 import android.os.Environment;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,21 +59,24 @@ public class UserActivity extends Activity{
     }
     
     @ViewById LinearLayout userLayout;
+	@SuppressWarnings("deprecation")
 	private void ListUpMovies(){
 		this.userLayout.removeAllViewsInLayout();
 		int i = 0;
 		LinearLayout cur = null;
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1f);
+		layoutParams.setMargins(10, 0, 0, 10);
 		for(VOD v : this.db.VODs){
 			if(++i % 3 == 1){
 				cur = new LinearLayout(getApplicationContext());
 				cur.setOrientation(LinearLayout.HORIZONTAL);
-				cur.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1f));
+				cur.setLayoutParams(layoutParams);
 				this.userLayout.addView(cur);
 			}
 			ImageView iv = new ImageView(getApplicationContext());
 			iv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1f));
-			//iv.setScaleType(ScaleType.FIT_XY);
 			iv.setAdjustViewBounds(true);
+			
 			if(v.thumbnail.contains("http"))
 				Picasso.with(this.getApplicationContext()).load(v.thumbnail).placeholder(R.drawable.loading).into(iv);
 			else
@@ -83,7 +84,14 @@ public class UserActivity extends Activity{
 			iv.setOnClickListener(new MovieOnClickEvent(getApplicationContext(), v, this.myself));
 			cur.addView(iv);
 		}
-
+		int j = 3 - i%3;
+		while(j-->0){
+			ImageView iv = new ImageView(getApplicationContext());
+			iv.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1f));
+			iv.setAdjustViewBounds(true);
+			Picasso.with(this.getApplicationContext()).load(R.drawable.loading).into(iv);
+			cur.addView(iv);
+		}
 	}
 	
 	@ViewById EditText MovieNameForSearch;

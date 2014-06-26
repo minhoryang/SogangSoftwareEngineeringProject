@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:maxLines="1"
             android:hint="Oh My God" />
 
     </LinearLayout>
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:maxLines="1"
             android:hint="http://" >
 
             <requestFocus />
@@ -67,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:maxLines="1"
             android:hint="http://" />
 
         <Button
@@ -93,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="100"
+            android:hint="1000"
             android:inputType="numberDecimal" />
 
     </LinearLayout>
@@ -113,6 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
+            android:maxLines="1"
             android:hint="Myself" />
 
     </LinearLayout>

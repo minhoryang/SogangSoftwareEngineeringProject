@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/PW"
         android:layout_centerVertical="true"
-        android:text="Login" />
+        android:text="로그인합시다!" />
 
     <EditText
         android:id="@+id/ID"
@@ -19,7 +19,8 @@
         android:layout_above="@+id/PW"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="User"
+        android:maxLines="1"
+        android:hint="이름"
         android:inputType="textPersonName" />
 
     <EditText
@@ -29,7 +30,8 @@
         android:layout_above="@+id/Login"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:hint="Password"
+        android:maxLines="1"
+        android:hint="비밀번호"
         android:inputType="textPassword" >
 
         <requestFocus />
