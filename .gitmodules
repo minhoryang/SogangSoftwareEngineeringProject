@@ -1,3 +1,6 @@
 [submodule "ColorArt"]
 	path = ColorArt
 	url = https://github.com/MichaelEvans/ColorArt.git
+[submodule "Colours"]
+	path = Colours
+	url = https://github.com/MatthewYork/Colours.git

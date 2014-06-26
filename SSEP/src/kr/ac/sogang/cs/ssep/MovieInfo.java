@@ -3,10 +3,14 @@ package kr.ac.sogang.cs.ssep;
 import java.io.File;
 import java.io.IOException;
 
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.michaelevans.colorart.library.ColorArt;
 
+import com.mattyork.colours.Colour;
 import com.squareup.picasso.Picasso;
 
 import kr.ac.sogang.cs.ssep.Classes.User;
@@ -17,9 +21,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @EActivity(R.layout.movieinfoactivity)
 public class MovieInfo extends Activity{
@@ -68,16 +75,44 @@ public class MovieInfo extends Activity{
         if(this.vod == null)
         	onBackPressed();
         else{
-			if(this.vod.thumbnail.contains("http"))
+        	final String thumbnailurl = this.vod.thumbnail;
+			if(this.vod.thumbnail.contains("http")){
 				Picasso.with(this.getApplicationContext()).load(this.vod.thumbnail).into(InfoThumbnail);
-			else
+			}else{
 				Picasso.with(this.getApplicationContext()).load(new File(this.vod.thumbnail)).into(InfoThumbnail);
+			}
 			InfoTitle.setText(this.vod.NAME);
 			InfoStaff.setText(this.vod.STAFF);
 			InfoStory.setText(this.vod.STORY);
 			PlayButton.setText("보러가기! " + this.vod.PRICE + "유디니");
 			setTitle(this.myself.ID + "님, " + this.myself.COIN + "유디니(원)");
         }
+        test();
+    }
+    @Background(delay=100)
+    void test(){
+    	ColorArt ca = null;
+		try {
+			if(this.vod.thumbnail.contains("http")){
+				ca = new ColorArt(Picasso.with(this.getApplicationContext()).load(this.vod.thumbnail).get());
+			}else{
+				ca = new ColorArt(Picasso.with(this.getApplicationContext()).load(new File(this.vod.thumbnail)).get());
+			}
+			test2(ca);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    @ViewById LinearLayout Header;
+    @UiThread
+    void test2(ColorArt ca){
+    	Header.setBackgroundColor(ca.getBackgroundColor());
+    	InfoTitle.setTextColor(ca.getPrimaryColor());
+    	InfoStaff.setTextColor(ca.getDetailColor());
+    	InfoStory.setTextColor(ca.getDetailColor());
+    	PlayButton.setBackgroundColor(ca.getSecondaryColor());
+    	PlayButton.setTextColor(Colour.blackOrWhiteContrastingColor(ca.getSecondaryColor()));
     }
     
     @Click void Play(){
