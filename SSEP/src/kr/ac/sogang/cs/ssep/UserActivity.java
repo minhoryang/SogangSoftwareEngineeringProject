@@ -2,25 +2,22 @@ package kr.ac.sogang.cs.ssep;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import kr.ac.sogang.cs.ssep.Classes.User;
 import kr.ac.sogang.cs.ssep.Classes.VOD;
+import kr.ac.sogang.cs.ssep.minhoryang.MovieOnClickEvent;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Environment;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -58,7 +55,8 @@ public class UserActivity extends Activity{
         }
         if(this.myself == null)
         	onBackPressed();
-        showID.setText("æ»≥Á«œººø‰ : " + me + "¥‘. (" + Integer.toString(this.myself.COIN) + "Öﬂ)");
+        else
+        	showID.setText("æ»≥Á«œººø‰ : " + me + "¥‘. (" + Integer.toString(this.myself.COIN) + "Öﬂ)");
     }
     
     @ViewById LinearLayout userLayout;
@@ -72,19 +70,18 @@ public class UserActivity extends Activity{
 				Picasso.with(this.getApplicationContext()).load(v.thumbnail).into(iv);
 			else
 				Picasso.with(this.getApplicationContext()).load(new File(v.thumbnail)).into(iv);
-			iv.setOnClickListener(new MovieOnClickEvent(v.mp4));
+			iv.setOnClickListener(new MovieOnClickEvent(getApplicationContext(), v));
 			this.userLayout.addView(iv);
 		}
 
 	}
 	
-	class MovieOnClickEvent implements OnClickListener{
-		private String url;
-		public MovieOnClickEvent(String url){ this.url = url; }
-		@Override public void onClick(View v) {
-			Intent player = new Intent(Intent.ACTION_VIEW);
-			player.setDataAndType(Uri.parse(this.url), "video/*");
-			startActivity(player);
+	@ViewById EditText MovieNameForSearch;
+	@Click void Search(){
+		if(!MovieNameForSearch.getText().toString().equals("")){
+			Intent a = new Intent(getApplicationContext(), SearchedMovieInfo_.class);
+			a.putExtra("Query", MovieNameForSearch.getText().toString());
+			startActivity(a);
 		}
-	}
+	}	
 }

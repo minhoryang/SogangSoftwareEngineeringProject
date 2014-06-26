@@ -29,6 +29,12 @@
         <activity
             android:name="kr.ac.sogang.cs.ssep.UserActivity_"
             android:label="@string/app_name" />
+        <activity
+            android:name="kr.ac.sogang.cs.ssep.MovieInfo_"
+            android:label="@string/app_name" />
+        <activity
+            android:name="kr.ac.sogang.cs.ssep.SearchedMovieInfo_"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
